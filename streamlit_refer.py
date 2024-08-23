@@ -10,7 +10,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.vectorstores import FAISS
-from langchain_community import chat_models  # langchain_community 모듈 임포트
 from langchain.callbacks import get_openai_callback
 from langchain.memory import StreamlitChatMessageHistory
 
