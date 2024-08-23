@@ -88,9 +88,8 @@ def main():
 
                 st.markdown(response)  # 응답을 화면에 표시합니다.
                 with st.expander("참고 문서 확인"):  # 참고 문서를 볼 수 있는 버튼을 만듭니다.
-                    st.markdown(source_documents[0].metadata['source'], help=source_documents[0].page_content)
-                    st.markdown(source_documents[1].metadata['source'], help=source_documents[1].page_content)
-                    st.markdown(source_documents[2].metadata['source'], help=source_documents[2].page_content)
+                    for doc in source_documents:
+                        st.markdown(doc.metadata['source'], help=doc.page_content)
                     
         # 생성된 응답을 메시지 리스트에 추가합니다.
         st.session_state.messages.append({"role": "assistant", "content": response})
@@ -143,23 +142,4 @@ def get_vectorstore(text_chunks):
                                         model_kwargs={'device': 'cpu'},
                                         encode_kwargs={'normalize_embeddings': True}
                                         )  
-    vectordb = FAISS.from_documents(text_chunks, embeddings)  # 텍스트 조각을 벡터로 변환합니다.
-    return vectordb
-
-# 대화 체인을 생성하는 함수입니다. 이 체인은 질문에 답변할 때 사용됩니다.
-def get_conversation_chain(vetorestore, openai_api_key):
-    llm = ChatOpenAI(openai_api_key=openai_api_key, model_name='gpt-3.5-turbo', temperature=0)  # OpenAI 모델을 사용합니다.
-    conversation_chain = ConversationalRetrievalChain.from_llm(
-            llm=llm, 
-            chain_type="stuff", 
-            retriever=vetorestore.as_retriever(search_type='mmr', vervose=True), 
-            memory=ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer'),
-            get_chat_history=lambda h: h,
-            return_source_documents=True,
-            verbose=True
-        )
-    return conversation_chain  # 생성된 대화 체인을 반환합니다.
-
-# 프로그램이 실행될 때 가장 먼저 호출되는 메인 함수입니다.
-if __name__ == '__main__':
-    main()
+    vectordb = FAISS.from_documents(text_chunks, embeddings)  # 텍스트 조각을 벡터로 변환합니다
