@@ -10,6 +10,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.vectorstores import FAISS
+from langchain_community import chat_models  # langchain_community 모듈 임포트
 from langchain.callbacks import get_openai_callback
 from langchain.memory import StreamlitChatMessageHistory
 
@@ -164,7 +165,8 @@ def get_conversation_chain(vetorestore, openai_api_key):
 if __name__ == '__main__':
     main()
 
-    
+
+
 # 코드 설명
 
 # 라이브러리 임포트: 코드의 첫 부분에서는 프로그램에서 사용할 다양한 라이브러리를 불러옵니다. Streamlit은 간단한 웹 애플리케이션을 만들 수 있게 해주고, tiktoken은 텍스트를 토큰으로 변환하며, loguru는 로그를 기록합니다. langchain 패키지에서는 자연어 처리와 관련된 다양한 도구들을 가져옵니다.
